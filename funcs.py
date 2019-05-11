@@ -15,7 +15,7 @@ def funcCreator(lagrangian,variables,constants,constraintMatrix,control):
     var0 = [x+"0" for x in variables]
     var1 = [x+"1" for x in variables]
     var2 = [x+"2" for x in variables]
-    # uvar = ["u"+x for x in variables]
+    uvar = ["u"+x for x in variables]
     
     c = sympy.symbols(" ".join(constants))
     v = sympy.symbols(" ".join(variables))
@@ -23,10 +23,13 @@ def funcCreator(lagrangian,variables,constants,constraintMatrix,control):
     v0 = sympy.symbols(" ".join(var0))
     v1 = sympy.symbols(" ".join(var1))
     v2 = sympy.symbols(" ".join(var2))
-    # u = sympy.symbols(" ".join(uvar))
+    u = sympy.symbols(" ".join(uvar))
     h = sympy.symbols("h")
     L = sympy.sympify(lagrangian)
     A = sympy.sympify(constraintMatrix)
+    omega = sympy.Matrix(A)*sympy.Matrix(vdot)
+    lmbda = sympy.symbols("lambda:" + str(len(A)))
+    
     
     pairs1 = []
     pairs2 = []
@@ -41,8 +44,17 @@ def funcCreator(lagrangian,variables,constants,constraintMatrix,control):
     
     eq = []
     for i in range(len(variables)):
+        forces = 0
+        for j in range(len(A)):
+            forces+=lmbda[j]*A[j][i]
+        if control[i]:
+            forces+= u[i]   
+        eq.append((sympy.diff(Ld1,v1[i])+sympy.diff(Ld2,v1[i])-forces))
+    
+    for row in omega:
+        eq.append(row)
         
-        eq.append((sympy.diff(Ld1,v1[i])+sympy.diff(Ld2,v1[i])))
+    print(eq)
         
     f = sympy.lambdify(list(v2)+[h]+list(v1)+list(v0)+list(c),eq,"numpy")
     

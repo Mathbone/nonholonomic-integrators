@@ -20,11 +20,11 @@ A = [["1","0","0","-R*cos(phi)","0"],["0","1","0","-R*sin(phi)","0"]]
 
 func = funcs.funcCreator(L,var,consts,A,[False,False,True,True,True])
 
-x0 = [0,0,numpy.pi/2,0,numpy.pi/2]
-xdot0 = [0,1,0,1,0]
+x0 = [0,0,0,0,numpy.pi/2]
+xdot0 = [0,5,0,5,0]
 k = [1,2/5,3/5,1,9.8]
 h = .1
 
-x = funcs.integratorCreator(func,x0,xdot0,k,h,50)
+#x = funcs.integratorCreator(func,x0,xdot0,k,h,100)
 
-plt.plot(x[:,0],x[:,1])
+#plt.plot(x[:,0],x[:,1])
