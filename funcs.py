@@ -73,6 +73,7 @@ def funcCreator(lagrangian,variables,constants,constraintMatrix,control):
 
 def integratorCreator(func, x0, xdot0, u, k, h, numCons, numIter):
     x = numpy.zeros((numIter,len(x0)+numCons))
+    numVars = len(x0)
     for i in range(numCons):
         x0.append(0)
         xdot0.append(0)
@@ -80,7 +81,7 @@ def integratorCreator(func, x0, xdot0, u, k, h, numCons, numIter):
     x[1] = numpy.array(xdot0)*h+x[0]
     
     for i in range(2,len(x)):
-        x[i] = fsolve(func,2*x[i-1]-x[i-2],args = [h]+list(x[i-1][:len(x0)])+list(x[i-2][:len(x0)])+list(u[i-1])+k)
+        x[i] = fsolve(func,2*x[i-1]-x[i-2],args = [h]+list(x[i-1][:numVars])+list(x[i-2][:numVars])+list(u[i-1])+k)
     return x
     
     

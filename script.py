@@ -29,6 +29,9 @@ k = [1,2/5,3/5,1,9.8]
 h = .1
 u = numpy.zeros((numIter,sum(availableControls)))
 
+for row in u:
+    row[1]=.01
+
 x = funcs.integratorCreator(func,x0,xdot0, u, k, h, 2, numIter)
 
 plt.plot(x[:,0],x[:,1])
