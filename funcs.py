@@ -68,13 +68,6 @@ def funcCreator(lagrangian,variables,constants,constraintMatrix,control):
     
     return func
 
-def boundaryConditionsLeft():
-    
-    
-def boundaryConditionsRight():
-    
-    
-def 
     
 
 def integratorCreator(func, x0, xdot0, u, k, h, numCons, numIter):
